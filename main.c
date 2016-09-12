@@ -3,21 +3,20 @@
 
 int main () {
   FILA alunos = novaFila();
-  inserir(alunos, 9);
-  inserir(alunos, 8);
-  inserir(alunos, 3);
-  inserir(alunos, 10);
+  inserirmaisEsquerda(alunos, 9);
+  inserirmaisDireita(alunos, 8);
+  inserirmaisEsquerda(alunos, 3);
+  inserirmaisDireita(alunos, 10);
 
-  imprimirFila(alunos);
+  imprimirmaisEsquerda(alunos);
 
   while(!filaVazia(alunos))
-    printf ("removido: %d \n", remover(alunos));
+    printf ("removido: %d \n", removermaisDireita(alunos));
 
-
-  inserir(alunos, 10);
-  inserir(alunos, 32);
+  inserirmaisDireita(alunos, 10);
+  inserirmaisEsquerda(alunos, 32);
   
-  imprimirFila(alunos);
+  imprimirmaisDireita(alunos);
 
   destroiFila(alunos);
   return 0;
