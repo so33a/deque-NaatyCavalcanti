@@ -3,7 +3,7 @@
 #include "fila.h"
 
 
-link novoNo(int item, link next) {
+link novoNo(int item, link next, link prev) {
   link t = malloc(sizeof *t);
   if (t == NULL) {
     printf ("Erro no malloc \n");
@@ -11,6 +11,7 @@ link novoNo(int item, link next) {
   }
   t->item = item;
   t->next = next;
+  t->prev = prev;
   return t;
 }
 
@@ -20,16 +21,34 @@ FILA novaFila() {
   return f;
 }
 
-void inserir(FILA f, int e) {
-  if(f->maisEsquerda == NULL) {
-    f->maisEsquerda = f->maisDireita = novoNo(e, NULL);
-  } else {
-    f->maisDireita->next = novoNo(e, NULL);
-    f->maisDireita = f->maisDireita->next;
-  }
+void inserirmaisEsquerda(FILA f, int e) {
+  link novo = malloc(sizeof *novo);
+    novo->item = e;
+    novo->prev = NULL;
+  if(f->maisDireita != NULL){
+        f->maisDireita->prev = novo;
+        novo->prox = f->maisEsquerda;
+    }else{
+        f->maisDireita = novo;
+        novo->prox=NULL;
+    }
+    f->maisEsquerda = novo;
+}
+void inserirmaisDireita(FILA f, int e) {
+    link novo = malloc(sizeof *novo);
+    novo->item = e;
+    novo->prox = NULL;
+    if(f->maisDireita != NULL){
+        f->maisDireita->prox= novo;
+        novo->prev = f->maisDireita;
+    }else{
+        f->maisEsquerda = novo;
+        novo->prev = NULL;
+    }
+    f->maisDireita = novo;
 }
 
-int remover(FILA f){
+int removermaisEsquerda(FILA f){
   int x;
   link t;
   if(filaVazia(f)){
@@ -37,9 +56,9 @@ int remover(FILA f){
     return 0;
   }
   
-  x = f->maisAntigo->item;
-  t = f->maisAntigo;
-  f->maisAntigo = f->maisAntigo->next;
+  x = f->maisEsquerda->item;
+  t = f->maisEsquerda;
+  f->maisEsquerda = f->maisEsquerda->next;
  
   if(f->maisEsquerda == NULL)
     f->maisDireita = NULL;
@@ -47,15 +66,42 @@ int remover(FILA f){
   free(t);
   return x;
 }
+int removermaisDireita(FILA f){
+  int x;
+  link t;
+  if(filaVazia(f)){
+    printf ("Erro, a fila esta vazia\n");
+    return 0;
+  }
+  
+  x = f->maisDireita->item;
+  t = f->maisDireita;
+  f->maisDireita = f->maisDireita->prev;
+ 
+  if(f->maisDireita == NULL)
+    f->maisEsquerda = NULL;
+
+  free(t);
+  return x;
+}
+
 int filaVazia(FILA f) {
   return ((f->maisDireita == NULL) || (f->maisEsquerda == NULL));
 }
-void imprimirFila(FILA f) {
+void imprimirmaisEsquerda(FILA f) {
   link t;
   for(t = f->maisEsquerda; t != NULL; t = t->next) 
     printf ("%d ", t->item);
   printf ("\n");
 }
+
+void imprimirmaisDireita(FILA f) {
+  link t;
+  for(t = f->maisDireita; t != NULL; t = t->prev) 
+    printf ("%d ", t->item);
+  printf ("\n");
+}
+
 void destroiFila(FILA f) {
   while (!filaVazia(f))
     remover(f);
