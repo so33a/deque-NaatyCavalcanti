@@ -4,7 +4,7 @@
 typedef struct node * link;
 struct node {
   int item;
-  link next;
+  link prox;
   link prev;
 };
 
@@ -13,7 +13,7 @@ typedef struct {
   link maisDireita;
 } * FILA;
 
-link novoNo(int item, link next, link prev);
+link novoNo(int item, link prox, link prev);
 FILA novaFila();
 void inserirmaisEsquerda(FILA f, int e);
 void inserirmaisDireita(FILA f, int e);
