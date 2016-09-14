@@ -2,14 +2,14 @@
 #include <stdlib.h>
 #include "fila.h"
 
-link novoNo(int item, link next, link prev) {
+link novoNo(int item, link prox, link prev) {
   link t = malloc(sizeof *t);
   if (t == NULL) {
     printf ("Erro no malloc \n");
     exit(-1);
   }
   t->item = item;
-  t->next = next;
+  t->prox = prox;
   t->prev = prev;
   return t;
 }
@@ -57,7 +57,7 @@ int removermaisEsquerda(FILA f){
   
   x = f->maisEsquerda->item;
   t = f->maisEsquerda;
-  f->maisEsquerda = f->maisEsquerda->next;
+  f->maisEsquerda = f->maisEsquerda->prox;
  
   if(f->maisEsquerda == NULL)
     f->maisDireita = NULL;
@@ -89,7 +89,7 @@ int filaVazia(FILA f) {
 }
 void imprimirmaisEsquerda(FILA f) {
   link t;
-  for(t = f->maisEsquerda; t != NULL; t = t->next) 
+  for(t = f->maisEsquerda; t != NULL; t = t->prox) 
     printf ("%d ", t->item);
   printf ("\n");
 }
@@ -103,7 +103,6 @@ void imprimirmaisDireita(FILA f) {
 
 void destroiFila(FILA f) {
   while (!filaVazia(f))
-    remover(f);
+    removermaisDireita(f);
   free(f);
 }
-
