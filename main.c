@@ -11,12 +11,15 @@ int main () {
   imprimirmaisEsquerda(alunos);
 
   while(!filaVazia(alunos))
-    printf ("removido: %d \n", removermaisDireita(alunos));
+    printf ("removido: %d \n\n", removermaisDireita(alunos));
 
   inserirmaisDireita(alunos, 10);
   inserirmaisEsquerda(alunos, 32);
   
   imprimirmaisDireita(alunos);
+
+  while(!filaVazia(alunos))
+    printf ("removido: %d \n\n", removermaisEsquerda(alunos));
 
   destroiFila(alunos);
   return 0;
